@@ -85,7 +85,7 @@ namespace CoreEscuela
                         {
                             Asignatura = asignatura,
                             Nombre = $"{asignatura.Nombre} Ev# {i+1}",
-                            Nota = (float) (5*rnd.NextDouble()),
+                            Nota =  (5*(float)rnd.NextDouble()),
                             Alumno=alumno
                         };
                         

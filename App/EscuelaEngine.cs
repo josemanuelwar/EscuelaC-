@@ -5,7 +5,7 @@ using CoreEscuela.Entidades;
 using System.Linq;
 namespace CoreEscuela
 {
-    public class EscuelaEngine
+    public sealed class EscuelaEngine
     {
         public Escuela Escuela { get; set; }
 
@@ -53,7 +53,7 @@ namespace CoreEscuela
             }
         }
 
-         protected void CargarAsignaturas()
+        protected void CargarAsignaturas()
         {
             foreach (var curso in Escuela.cursos)
             {
@@ -68,7 +68,7 @@ namespace CoreEscuela
         }
 
 
-        private  void CargarEvaluaciones()
+        private void CargarEvaluaciones()
         {
             foreach (var curso in Escuela.cursos)
             {
@@ -77,28 +77,45 @@ namespace CoreEscuela
                     foreach (var alumno in curso.Alumnos)
                     {
 
-                   
-                     for (var i = 0; i < 5; i++)
-                     {
-                        var rnd = new Random(System.Environment.TickCount);
-                        var ev  = new Evaluaciones
+
+                        for (var i = 0; i < 5; i++)
                         {
-                            Asignatura = asignatura,
-                            Nombre = $"{asignatura.Nombre} Ev# {i+1}",
-                            Nota =  (5*(float)rnd.NextDouble()),
-                            Alumno=alumno
-                        };
-                        
-                        //alumno.Evalucion.Add(ev);
-                        //alumno.Evalucion.Add(ev);
-                     }   
-                        
+                            var rnd = new Random(System.Environment.TickCount);
+                            var ev = new Evaluacion
+                            {
+                                Asignatura = asignatura,
+                                Nombre = $"{asignatura.Nombre} Ev# {i + 1}",
+                                Nota = (5 * (float)rnd.NextDouble()),
+                                Alumno = alumno
+                            };
+
+                            alumno.Evalucion.Add(ev);
+                            //alumno.Evalucion.Add(ev);
+                        }
+
                     }
-                    
+
                 }
-                
+
             }
 
+        }
+
+        public List<ObjetoEscuelaBase> GetObjetoEscuelas()
+        {
+            var listaObj = new List<ObjetoEscuelaBase>();
+            listaObj.Add(Escuela);
+            listaObj.AddRange(Escuela.cursos);
+            foreach (var curso in Escuela.cursos)
+            {
+                listaObj.AddRange(curso.Asignatura);
+                listaObj.AddRange(curso.Alumnos);
+                foreach (var alumno in curso.Alumnos)
+                {
+                    listaObj.AddRange(alumno.Evalucion);
+                }
+            }
+            return listaObj;
         }
 
     }

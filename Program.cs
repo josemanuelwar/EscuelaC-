@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-using System;
-using CoreEscuela;
+﻿using CoreEscuela;
 using CoreEscuela.Entidades;
 using CoreEscuela.Util;
 using static System.Console;
@@ -14,7 +12,8 @@ namespace HelloWorld
             var engine = new EscuelaEngine();
             //Printer.Beep();
             engine.Inicializar();
-            ImprimirCursosEscuela(engine.Escuela);
+            ImprimirCursosEscuela(engine.Escuela); 
+            var listaObjetos = engine.GetObjetoEscuelas();
         }
         public static void ImprimirCursosEscuela(Escuela escuela)
         {
